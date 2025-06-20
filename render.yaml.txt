@@ -1,6 +1,8 @@
 services:
   - type: web
-    name: pictochat
+    name: pictoworl
     env: docker
-    plan: free
+    buildCommand: ""
+    startCommand: "./start.sh"
     autoDeploy: true
+    plan: free
