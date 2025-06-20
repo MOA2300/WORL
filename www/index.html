@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src wss://worl.onrender.com; style-src 'self'; script-src 'self';">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PictoChat Guestbook</title>
   <style>
@@ -67,8 +68,12 @@
     const messagesDiv = document.getElementById('messages');
     const form = document.getElementById('form');
     const input = document.getElementById('input');
-    const socket = new WebSocket('wss://' + window.location.host + '/socket');
+    let socket;
     let messages = [];
+
+    function log(msg) {
+      console.log('[WS]', msg);
+    }
 
     function renderMessages() {
       messagesDiv.innerHTML = '';
@@ -111,18 +116,43 @@
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
-    socket.addEventListener('message', function(event) {
-      messages.push(event.data);
-      renderMessages();
-    });
+    function connectWebSocket() {
+      socket = new WebSocket('wss://' + window.location.host + '/socket');
+
+      socket.addEventListener('open', () => log('✅ Connected'));
+
+      socket.addEventListener('message', function(event) {
+        log('📩 Message received');
+        messages.push(event.data);
+        renderMessages();
+      });
+
+      socket.addEventListener('close', function(event) {
+        log('❌ Connection closed');
+        const warning = document.createElement('div');
+        warning.style.color = 'red';
+        warning.textContent = '⚠️ Disconnected from server.';
+        messagesDiv.prepend(warning);
+      });
+
+      socket.addEventListener('error', function(err) {
+        log('🚫 WebSocket error: ' + err);
+      });
+    }
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       if (input.value.trim() !== '') {
-        socket.send(input.value);
+        try {
+          socket.send(input.value);
+        } catch (e) {
+          log('Send error: ' + e.message);
+        }
         input.value = '';
       }
     });
+
+    connectWebSocket();
   </script>
 </body>
 </html>
