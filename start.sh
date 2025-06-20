@@ -1,3 +1,3 @@
 #!/bin/bash
-echo "Launching PictoChat server..."
-java -jar ayunpictojava-1.0-SNAPSHOT.jar
+echo "Starting PictoChat server..."
+java -jar ayunpictojava-1.0-SNAPSHOT.jar --config settings.json
