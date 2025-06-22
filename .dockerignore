@@ -1,0 +1,11 @@
+*md
+*.zip
+*.DS_Store
+.git
+.gitignore
+.dockerignore
+README*
+build/
+.gradle/
+*.iml
+*.idea/
