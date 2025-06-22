@@ -2,8 +2,6 @@
   "host": "0.0.0.0",
   "port": 8080,
   "web": "www",
-  "allowedOrigins": [
-    "https://worl.onrender.com",
-    "https://leslieahuatzi.com"
-  ]
+  "allowedOrigins": ["https://worl.onrender.com"],
+  "allowedHosts": ["worl.onrender.com"]
 }
