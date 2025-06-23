@@ -2,5 +2,9 @@
   "host": "0.0.0.0",
   "port": 8080,
   "web": "www",
-  "whitelist": ["worl.onrender.com"]
+  "allowedHosts": [
+    "worl.onrender.com",
+    "localhost",
+    "127.0.0.1"
+  ]
 }
